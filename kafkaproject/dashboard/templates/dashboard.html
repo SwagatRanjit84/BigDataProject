@@ -1,0 +1,223 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Log Analysis Dashboard</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+        <link rel="stylesheet" href="https://cdn.flexmonster.com/demo.css">
+        <style>
+            .header {
+                padding: 10px;
+                color: white;
+                text-align: center;
+                font-size: 15px;
+                background: #1abc9c;
+             }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Log Analysis Dashboard</h1>
+        </div>
+        <div id="datamaking-chart-container-1"></div>
+        <div id="datamaking-chart-container-2"></div>
+        <div id="datamaking-table-container" data-url="{% url 'dashboard_data' %}"></div>
+        <div id="datamaking-table-container1" data-url="{% url 'dashboard_data' %}"></div>
+        <div id="datamaking-table-container2" data-url="{% url 'dashboard_data' %}"></div>
+        <div id="datamaking-table-container4" data-url="{% url 'dashboard_data' %}"></div>
+        <script>
+             processData = (dataset, i) => {
+                let result = [];
+                dataset = JSON.parse(dataset[i]);
+                dataset.forEach(item => result.push(item.fields));
+                return result;
+            }
+
+            $.ajax({
+                url: $("#datamaking-table-container").attr("data-url"),
+                dataType: 'json',
+                success: function(data) {
+                       new Flexmonster({
+                        container: "#datamaking-table-container",
+                        componentFolder: "https://cdn.flexmonster.com/",
+                        width: "100%",
+                        height: 430,
+                        toolbar: true,
+                        report: {
+                            dataSource: {
+                                type: "json",
+                                data: processData(data,0),
+                                mapping: {
+                                    "category1": {
+                                        "caption": "Product name"
+                                    },
+                                    "count": {
+                                        "caption": "Server Status Color Code"
+                                    }
+                                }
+                            },
+                            "slice": {
+                                "rows": [{
+                                    "uniqueName": "event_city_name"
+                                }],
+                                "columns": [{
+                                        "uniqueName": "event_server_status_color_name"
+                                    },
+                                    {
+                                        "uniqueName": "[Measures]"
+                                    }
+                                ],
+                                "measures": [{
+                                        "uniqueName": "total_message_count",
+                                        "aggregation": "sum"
+                                    },
+                                    {
+                                        "uniqueName": "total_estimated_resolution_time",
+                                        "aggregation": "sum"
+                                    }
+                                ]
+                            }
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                url: $("#datamaking-table-container4").attr("data-url"),
+                dataType: 'json',
+                success: function(data) {
+
+                       new Flexmonster({
+                        container: "#datamaking-table-container4",
+                        componentFolder: "https://cdn.flexmonster.com/",
+                        width: "100%",
+                        height: 430,
+                        toolbar: true,
+                        report: {
+                            dataSource: {
+                                type: "json",
+                                data: processData(data,3),
+                                mapping: {
+                                    "category2": {
+                                        "caption": "Product name"
+                                    },
+                                    "count12": {
+                                        "caption": "Server Status Color Code"
+                                    }
+                                }
+                            },
+                            "slice": {
+                                "rows": [{
+                                    "uniqueName": "event_city_name"
+                                }],
+                                "columns": [{
+                                        "uniqueName": "event_server_status_color_name"
+                                    },
+                                    {
+                                        "uniqueName": "[Measures]"
+                                    }
+                                ],
+                                "measures": [{
+                                        "uniqueName": "total_message_count",
+                                        "aggregation": "sum"
+                                    },
+                                    {
+                                        "uniqueName": "total_estimated_resolution_time",
+                                        "aggregation": "sum"
+                                    }
+                                ]
+                            }
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                url: $("#datamaking-table-container1").attr("data-url"),
+                dataType: 'json',
+                success: function(data) {
+
+                       new Flexmonster({
+                        container: "#datamaking-table-container1",
+                        componentFolder: "https://cdn.flexmonster.com/",
+                        width: "100%",
+                        height: 430,
+                        toolbar: true,
+                        report: {
+                            dataSource: {
+                                type: "json",
+                                data: processData(data, 1),
+                                mapping: {
+                                    "page": {
+                                        "caption": "Page"
+                                    },
+                                    "count12": {
+                                        "caption": "Count"
+                                    }
+                                }
+                            },
+                            "slice": {
+
+                                 "rows": [{
+                                    "uniqueName": "event_city_name",
+                                       sort: "desc"
+                                }],
+
+                                "columns": [{
+                                        "uniqueName": "event_server_status_color_name"
+                                    },
+                                    {
+                                        "uniqueName": "[Measures]"
+                                    }
+                                ]
+                            }
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                url: $("#datamaking-table-container2").attr("data-url"),
+                dataType: 'json',
+                success: function(data) {
+                       new Flexmonster({
+                        container: "#datamaking-table-container2",
+                        componentFolder: "https://cdn.flexmonster.com/",
+                        width: "100%",
+                        height: 430,
+                        toolbar: true,
+                        report: {
+                            dataSource: {
+                                type: "json",
+                                data: processData(data, 2),
+                                mapping: {
+                                    "ip": {
+                                        "caption": "IP"
+                                    },
+                                    "count12": {
+                                        "caption": "Count"
+                                    }
+                                }
+                            },
+                            "slice": {
+
+                                 "rows": [{
+                                    "uniqueName": "event_city_name",
+                                       sort: "desc"
+                                }],
+
+                                "columns": [{
+                                        "uniqueName": "event_server_status_color_name"
+                                    },
+                                    {
+                                        "uniqueName": "[Measures]"
+                                    }
+                                ]
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
